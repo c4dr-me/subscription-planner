@@ -278,6 +278,30 @@ Tracing is fully optional. If `LANGSMITH_API_KEY` is not set, the agent runs wit
 
 ---
 
+## Eval — Extraction Accuracy
+
+A test suite of 10 labeled billing emails is in `eval/test_cases.json`. Run it with:
+
+```bash
+uv run python eval/run_eval.py
+```
+
+### Latest results
+
+| Field | Accuracy |
+|---|---|
+| Merchant | 10/10 (100%) |
+| Amount | 10/10 (100%) |
+| Currency | 10/10 (100%) |
+| Billing Period | 10/10 (100%) |
+| **Overall** | **100%** |
+
+Extraction uses a hybrid approach: regex pre-extractor for Indian receipts (SIP, ₹ amounts, fund names) with LLM as fallback. Rule-based results always win for `billing_period` to prevent LLM from misclassifying SIP deductions as `one-time`.
+
+To add more test cases, append entries to `eval/test_cases.json` following the existing format.
+
+---
+
 ## Contributing
 
 Contributions are welcome! Here are good areas to improve:

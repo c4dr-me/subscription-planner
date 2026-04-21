@@ -241,8 +241,11 @@ def extract_billing_info(subject, body, state):
             if val is None:
                 continue
             existing = llm_result.get(key)
+            # Always trust rule-based for billing_period and _sip flag
+            if key in ("billing_period", "_sip"):
+                llm_result[key] = val
             # Override if field is empty OR if merchant looks like a domain (e.g. groww.in)
-            if not existing or (key == "merchant" and isinstance(existing, str) and "." in existing and " " not in existing):
+            elif not existing or (key == "merchant" and isinstance(existing, str) and "." in existing and " " not in existing):
                 llm_result[key] = val
 
     return llm_result

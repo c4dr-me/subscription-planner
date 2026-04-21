@@ -7,6 +7,7 @@ token_*.json
 # Runtime state
 state.json
 app.log
+eval/results.json
 
 # Python
 __pycache__/

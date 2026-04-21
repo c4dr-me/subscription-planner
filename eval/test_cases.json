@@ -1,0 +1,122 @@
+[
+  {
+    "id": "tc_001",
+    "subject": "One-time investment: Units allocated | HDFC Mid Cap Fund Direct Growth",
+    "body": "SIP AMOUNT ₹499.98 SCHEME NAME HDFC Mid Cap Fund Direct Growth UNITS ALLOCATED 10.532 NAV 94.7584 ORDER ID GME123 Groww Invest Tech Pvt. Ltd.",
+    "expected": {
+      "merchant": "HDFC Mid Cap Fund",
+      "amount": 499.98,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_002",
+    "subject": "One-time investment: Units allocated | Nippon India Large Cap Fund Direct Growth",
+    "body": "SIP AMOUNT ₹100.00 SCHEME NAME Nippon India Large Cap Fund Direct Growth UNITS ALLOCATED 2.1040 NAV 94.7584 ORDER ID GME456 Groww Invest Tech Pvt. Ltd.",
+    "expected": {
+      "merchant": "Nippon India Large Cap Fund",
+      "amount": 100.0,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_003",
+    "subject": "Your purchase of Gold Pass",
+    "body": "Thank you for your purchase. Product: Clash of Clans Gold Pass. Amount: ₹449.00. Order processed by FastSpring.",
+    "expected": {
+      "merchant": "Clash of Clans",
+      "amount": 449.0,
+      "currency": "INR",
+      "billing_period": "one-time",
+      "status": "One-time"
+    }
+  },
+  {
+    "id": "tc_004",
+    "subject": "Payment receipt for Google Play",
+    "body": "Thank you for your purchase on Google Play. App: YouTube Premium. Amount charged: ₹299.00. This is a monthly subscription.",
+    "expected": {
+      "merchant": "YouTube Premium",
+      "amount": 299.0,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_005",
+    "subject": "Your Netflix membership",
+    "body": "We confirm your Netflix subscription has been cancelled. Your membership was ₹649/month. You will retain access until Jan 31 2026.",
+    "expected": {
+      "merchant": "Netflix",
+      "amount": 649.0,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Cancelled"
+    }
+  },
+  {
+    "id": "tc_006",
+    "subject": "One-time investment: Units allocated | HDFC Silver ETF FoF Direct Growth",
+    "body": "SIP AMOUNT ₹999.95 SCHEME NAME HDFC Silver ETF FoF Direct Growth UNITS ALLOCATED 52.760 NAV 18.945 ORDER ID GME789 Groww Invest Tech Pvt. Ltd.",
+    "expected": {
+      "merchant": "HDFC Silver ETF FoF",
+      "amount": 999.95,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_007",
+    "subject": "Your Vercel subscription invoice",
+    "body": "Invoice for Vercel Pro Plan. Amount: $20.00 USD. Billing period: monthly. Next renewal: May 15, 2026.",
+    "expected": {
+      "merchant": "Vercel",
+      "amount": 20.0,
+      "currency": "USD",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_008",
+    "subject": "Your GitHub subscription receipt",
+    "body": "Thank you for subscribing to GitHub Copilot Individual. $10.00/month charged to your card. Next billing date: June 1, 2026.",
+    "expected": {
+      "merchant": "GitHub Copilot",
+      "amount": 10.0,
+      "currency": "USD",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_009",
+    "subject": "Your free trial is ending soon",
+    "body": "Your Notion Plus free trial ends in 3 days on April 24, 2026. After that you will be charged $16.00/month unless you cancel.",
+    "expected": {
+      "merchant": "Notion",
+      "amount": 16.0,
+      "currency": "USD",
+      "billing_period": "monthly",
+      "status": "Trial"
+    }
+  },
+  {
+    "id": "tc_010",
+    "subject": "Payment confirmation — Supercell Store",
+    "body": "Thank you for your purchase. Product: Clash of Clans Gold Pass (1 month). Total: ₹449.00 INR. Sold by Supercell via FastSpring.",
+    "expected": {
+      "merchant": "Clash of Clans",
+      "amount": 449.0,
+      "currency": "INR",
+      "billing_period": "one-time",
+      "status": "One-time"
+    }
+  }
+]
