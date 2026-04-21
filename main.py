@@ -1,7 +1,30 @@
 import re
+import os
 from datetime import datetime, date
 from email.utils import parsedate_to_datetime
 from dateutil.relativedelta import relativedelta
+from dotenv import load_dotenv
+
+load_dotenv()
+
+if os.getenv("LANGSMITH_API_KEY"):
+    os.environ["LANGCHAIN_TRACING_V2"] = "true"
+    os.environ["LANGCHAIN_API_KEY"] = os.getenv("LANGSMITH_API_KEY")
+    os.environ.setdefault("LANGCHAIN_PROJECT", os.getenv("LANGSMITH_PROJECT", "subscription-tracker"))
+    from opentelemetry.sdk.trace import TracerProvider
+    from opentelemetry import trace
+    from langsmith.integrations.otel import OtelSpanProcessor
+    from openinference.instrumentation.crewai import CrewAIInstrumentor
+    from openinference.instrumentation.openai import OpenAIInstrumentor
+    _existing = trace.get_tracer_provider()
+    if not isinstance(_existing, TracerProvider):
+        _provider = TracerProvider()
+        trace.set_tracer_provider(_provider)
+    else:
+        _provider = _existing
+    _provider.add_span_processor(OtelSpanProcessor())
+    CrewAIInstrumentor().instrument()
+    OpenAIInstrumentor().instrument()
 
 from services.gmail import authenticate_gmail, fetch_emails, send_email
 from services.sheets import (
@@ -124,11 +147,21 @@ def process_email(email, sheet, state, stats):
         charged_date = _parse_date(email.get("date", ""))
 
         merchant = info.get("merchant") or extract_domain(sender) or "Unknown"
+        # Truncate merchant if it leaked email body (over 60 chars is a sign of this)
+        if merchant and len(merchant) > 60:
+            merchant = merchant[:60].rsplit(" ", 1)[0]
         amount = info.get("amount")
         currency = info.get("currency") or "USD"
         billing_period = info.get("billing_period") or "monthly"
         next_renewal = info.get("next_renewal") or ""
         plan_name = info.get("plan_name") or ""
+
+        # SIP override: rule-based found SIP AMOUNT → always Active + monthly
+        if info.get("_sip"):
+            status = "Active"
+            billing_period = "monthly"
+            log_info("SIP detected via rule-based extractor — forcing Active/monthly")
+
         if not next_renewal:
             next_renewal = _calc_next_renewal(charged_date, billing_period)
         annual_proj = _annual_projection(amount, billing_period)

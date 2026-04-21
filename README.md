@@ -254,7 +254,27 @@ docker run --rm `
 - Per-minute limits → waits the `retryDelay` from the error response, then retries
 - Daily limits → immediately switches to next model for the rest of the run
 - If all models are exhausted → email is skipped (not marked seen, reprocessed next run)
-- Run  `main.py`
+- Run `verify_llm.py` before `main.py` to confirm availability
+
+---
+
+## Observability — LangSmith
+
+Full CrewAI traces (agents, tasks, LLM calls, latency, tokens) are sent to [LangSmith](https://smith.langchain.com) when the key is set.
+
+### Setup
+
+1. Sign up at [smith.langchain.com](https://smith.langchain.com) → copy your API key
+2. Add to `.env`:
+
+```env
+LANGSMITH_API_KEY=ls__xxxxxxxxxxxxxxxxxxxx
+LANGSMITH_PROJECT=subscription-tracker
+```
+
+3. Run normally — traces appear automatically, no code changes needed
+
+Tracing is fully optional. If `LANGSMITH_API_KEY` is not set, the agent runs without it.
 
 ---
 

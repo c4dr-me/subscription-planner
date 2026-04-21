@@ -201,6 +201,7 @@ def _rule_based_extract(subject, body):
         result["amount"] = float(sip_amount.group(1).replace(",", ""))
         result["currency"] = "INR"
         result["billing_period"] = "monthly"
+        result["_sip"] = True
 
     scheme = re.search(r'SCHEME\s*NAME\s*[:\-]?\s*\n?\s*([^\n]+)', combined, re.IGNORECASE)
     if scheme:

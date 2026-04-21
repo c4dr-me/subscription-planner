@@ -41,13 +41,14 @@ NOISE_SUBJECT_PATTERNS = [
 
 NOISE_SENDER_DOMAINS = [
     "accounts.google.com", "security.google.com",
-    "camsonline.com",
+    "camsonline.com", "cdslindia.co.in", "nsdl.co.in",
 ]
 
 NOISE_SUBJECT_PATTERNS_EXTRA = [
     "portfolio", "half-yearly", "half yearly", "scheme portfolio",
     "statement of account", "account statement", "scheme performance",
     "newsletter", "investor service",
+    "transactions in your demat", "demat account", "nsdl cas", "cdsl",
 ]
 
 

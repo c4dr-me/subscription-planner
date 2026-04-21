@@ -110,11 +110,22 @@ def apply_status_color(sheet, row_index, status):
     }]})
 
 
+def _merchant_key(name):
+    """Normalize merchant to first 4 words lowercase for fuzzy matching."""
+    words = (name or "").strip().lower().split()
+    return " ".join(words[:4])
+
+
 def find_merchant_row(sheet, merchant):
     merchant_col = HEADERS.index("Merchant") + 1
+    target_key = _merchant_key(merchant)
     for i, row in enumerate(sheet.get_all_values()[1:], start=2):
-        row_merchant = row[merchant_col - 1].strip().lower() if len(row) >= merchant_col else ""
-        if row_merchant == (merchant or "").strip().lower():
+        row_merchant = row[merchant_col - 1] if len(row) >= merchant_col else ""
+        # Exact match first
+        if row_merchant.strip().lower() == (merchant or "").strip().lower():
+            return i
+        # Fuzzy match on first 4 words
+        if target_key and _merchant_key(row_merchant) == target_key:
             return i
     return None
 
