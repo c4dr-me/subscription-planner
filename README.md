@@ -36,6 +36,7 @@ An AI-powered agent that automatically tracks your SaaS subscriptions and billin
 | Language | Python 3.10+ |
 | LLM orchestration | [CrewAI](https://github.com/crewAIInc/crewAI) |
 | LLM abstraction | [LiteLLM](https://github.com/BerriAI/litellm) |
+| Prompt optimization | [DSPy](https://github.com/stanfordnlp/dspy) |
 | Primary LLM | Groq `llama-3.3-70b-versatile` (free, 100k TPD) |
 | Fallback LLM | Google `gemini-3.1-flash-lite-preview` (free, 500 RPD) |
 | Second fallback | Google `gemma-3-27b-it` (free, 14.4k RPD) |
@@ -280,21 +281,25 @@ Tracing is fully optional. If `LANGSMITH_API_KEY` is not set, the agent runs wit
 
 ## Eval — Extraction Accuracy
 
-A test suite of 10 labeled billing emails is in `eval/test_cases.json`. Run it with:
+A test suite of **60 labeled billing emails** (real + synthetic) is in `eval/test_cases.json`. Run it with:
 
 ```bash
 uv run python eval/run_eval.py
 ```
 
-### Latest results
+### Latest results (DSPy optimized)
+
+Prompt optimized with [DSPy](https://github.com/stanfordnlp/dspy) `BootstrapFewShotWithRandomSearch` using 4 few-shot demonstrations.
 
 | Field | Accuracy |
 |---|---|
-| Merchant | 10/10 (100%) |
-| Amount | 10/10 (100%) |
-| Currency | 10/10 (100%) |
-| Billing Period | 10/10 (100%) |
-| **Overall** | **100%** |
+| Merchant | 57/60 (95%) |
+| Amount | 60/60 (100%) |
+| Currency | 60/60 (100%) |
+| Billing Period | 57/60 (95%) |
+| **Overall** | **97.5%** |
+
+**Improvement**: 83.8% → **97.5%** (+13.7 points) via DSPy prompt optimization.
 
 Extraction uses a hybrid approach: regex pre-extractor for Indian receipts (SIP, ₹ amounts, fund names) with LLM as fallback. Rule-based results always win for `billing_period` to prevent LLM from misclassifying SIP deductions as `one-time`.
 

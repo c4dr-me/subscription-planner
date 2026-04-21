@@ -1,0 +1,85 @@
+{
+  "extract.predict": {
+    "traces": [],
+    "train": [],
+    "demos": [
+      {
+        "augmented": true,
+        "subject": "YouTube Premium subscription cancelled",
+        "body": "Your YouTube Premium subscription has been cancelled. No further billing.",
+        "reasoning": "The email states that the subscription has been cancelled and no further billing will occur, implying that the original billing period is still relevant.",
+        "merchant": "YouTube Premium",
+        "amount": "",
+        "currency": "INR",
+        "billing_period": "monthly"
+      },
+      {
+        "augmented": true,
+        "subject": "Your purchase of Gold Pass",
+        "body": "Thank you for your purchase. Product: Clash of Clans Gold Pass. Amount: \u20b9449.00. Order processed by FastSpring.",
+        "reasoning": "The email mentions a purchase of a product, and the product name is Clash of Clans Gold Pass. The payment processor is FastSpring, but the actual merchant is the provider of the product, which is Clash of Clans. The amount is specified as \u20b9449.00, indicating the currency is INR. Since it's a purchase, the billing period is one-time.",
+        "merchant": "Clash of Clans",
+        "amount": "449.00",
+        "currency": "INR",
+        "billing_period": "one-time"
+      },
+      {
+        "subject": "Payment received",
+        "body": "\u20b912 charged for your premium plan.",
+        "merchant": "",
+        "amount": "12",
+        "currency": "INR",
+        "billing_period": "monthly"
+      },
+      {
+        "subject": "Your free trial is ending soon",
+        "body": "Your Notion Plus free trial ends soon. Then $16.00\/month.",
+        "merchant": "Notion",
+        "amount": "16.0",
+        "currency": "USD",
+        "billing_period": "monthly"
+      }
+    ],
+    "signature": {
+      "instructions": "Extract billing details from a subscription or payment email.\n\nRules:\n- merchant: The product\/service the user paid for. NOT the payment processor.\n  Stripe, PayPal, Razorpay, FastSpring, Groww, Google Play = NOT the merchant.\n  Look inside the email for the actual product\/service name.\n- amount: Numeric only (e.g. 499.98). Strip currency symbols. Use empty string if no amount.\n- currency: Detect from symbols: \u20b9\/Rs\/GST = INR, $ = USD, \u20ac = EUR.\n  For Indian services (Hotstar, JioCinema, Groww SIPs) default to INR.\n  For cancelled emails with no symbol, infer from the service's country.\n- billing_period: monthly | annual | one-time.\n  SIP\/auto-debit = monthly. Cancelled\/trial emails keep the subscription's original period.\n  A single purchase = one-time.",
+      "fields": [
+        {
+          "prefix": "Subject:",
+          "description": "Email subject line"
+        },
+        {
+          "prefix": "Body:",
+          "description": "Email body text"
+        },
+        {
+          "prefix": "Reasoning: Let's think step by step in order to",
+          "description": "${reasoning}"
+        },
+        {
+          "prefix": "Merchant:",
+          "description": "Product\/service name (e.g. Netflix, HDFC Mid Cap Fund). Empty string if truly ambiguous."
+        },
+        {
+          "prefix": "Amount:",
+          "description": "Numeric amount as string (e.g. '499.98'). Empty string if cancelled\/unknown."
+        },
+        {
+          "prefix": "Currency:",
+          "description": "3-letter code: INR, USD, EUR. Empty string only if completely unknown."
+        },
+        {
+          "prefix": "Billing Period:",
+          "description": "monthly, annual, or one-time. Empty string only if completely unknown."
+        }
+      ]
+    },
+    "lm": null
+  },
+  "metadata": {
+    "dependency_versions": {
+      "python": "3.12",
+      "dspy": "2.6.13",
+      "cloudpickle": "3.1"
+    }
+  }
+}

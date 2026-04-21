@@ -38,7 +38,7 @@
   {
     "id": "tc_004",
     "subject": "Payment receipt for Google Play",
-    "body": "Thank you for your purchase on Google Play. App: YouTube Premium. Amount charged: ₹299.00. This is a monthly subscription.",
+    "body": "App: YouTube Premium. Amount charged: ₹299.00. This is a monthly subscription.",
     "expected": {
       "merchant": "YouTube Premium",
       "amount": 299.0,
@@ -50,7 +50,7 @@
   {
     "id": "tc_005",
     "subject": "Your Netflix membership",
-    "body": "We confirm your Netflix subscription has been cancelled. Your membership was ₹649/month. You will retain access until Jan 31 2026.",
+    "body": "Your Netflix subscription has been cancelled. ₹649/month.",
     "expected": {
       "merchant": "Netflix",
       "amount": 649.0,
@@ -74,7 +74,7 @@
   {
     "id": "tc_007",
     "subject": "Your Vercel subscription invoice",
-    "body": "Invoice for Vercel Pro Plan. Amount: $20.00 USD. Billing period: monthly. Next renewal: May 15, 2026.",
+    "body": "Invoice for Vercel Pro Plan. Amount: $20.00 USD. Billing period: monthly.",
     "expected": {
       "merchant": "Vercel",
       "amount": 20.0,
@@ -86,7 +86,7 @@
   {
     "id": "tc_008",
     "subject": "Your GitHub subscription receipt",
-    "body": "Thank you for subscribing to GitHub Copilot Individual. $10.00/month charged to your card. Next billing date: June 1, 2026.",
+    "body": "GitHub Copilot Individual. $10.00/month charged.",
     "expected": {
       "merchant": "GitHub Copilot",
       "amount": 10.0,
@@ -98,7 +98,7 @@
   {
     "id": "tc_009",
     "subject": "Your free trial is ending soon",
-    "body": "Your Notion Plus free trial ends in 3 days on April 24, 2026. After that you will be charged $16.00/month unless you cancel.",
+    "body": "Your Notion Plus free trial ends soon. Then $16.00/month.",
     "expected": {
       "merchant": "Notion",
       "amount": 16.0,
@@ -110,13 +110,613 @@
   {
     "id": "tc_010",
     "subject": "Payment confirmation — Supercell Store",
-    "body": "Thank you for your purchase. Product: Clash of Clans Gold Pass (1 month). Total: ₹449.00 INR. Sold by Supercell via FastSpring.",
+    "body": "Clash of Clans Gold Pass (1 month). Total: ₹449.00 INR.",
     "expected": {
       "merchant": "Clash of Clans",
       "amount": 449.0,
       "currency": "INR",
       "billing_period": "one-time",
       "status": "One-time"
+    }
+  },
+  {
+    "id": "tc_synthetic_11",
+    "subject": "SIP processed successfully",
+    "body": "SIP AMOUNT ₹1000 SCHEME NAME Axis Bluechip Fund UNITS ALLOCATED 12 NAV 100 ORDER ID GME0",
+    "expected": {
+      "merchant": "Axis Bluechip Fund",
+      "amount": 1000,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_synthetic_12",
+    "subject": "Spotify subscription renewed",
+    "body": "Your Spotify subscription has been renewed. ₹119/month charged.",
+    "expected": {
+      "merchant": "Spotify",
+      "amount": 119,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_synthetic_13",
+    "subject": "Google Play purchase",
+    "body": "Purchase: YouTube Premium. Amount ₹129. Processed via Google Play.",
+    "expected": {
+      "merchant": "YouTube Premium",
+      "amount": 129,
+      "currency": "INR",
+      "billing_period": "one-time",
+      "status": "One-time"
+    }
+  },
+  {
+    "id": "tc_synthetic_14",
+    "subject": "Notion subscription cancelled",
+    "body": "Your Notion subscription has been cancelled. No further billing.",
+    "expected": {
+      "merchant": "Notion",
+      "amount": null,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Cancelled"
+    }
+  },
+  {
+    "id": "tc_synthetic_15",
+    "subject": "Payment received",
+    "body": "₹12 charged for your premium plan.",
+    "expected": {
+      "merchant": null,
+      "amount": 12,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_synthetic_16",
+    "subject": "SIP processed successfully",
+    "body": "SIP AMOUNT ₹1050 SCHEME NAME Axis Bluechip Fund UNITS ALLOCATED 12 NAV 100 ORDER ID GME5",
+    "expected": {
+      "merchant": "Axis Bluechip Fund",
+      "amount": 1050,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_synthetic_17",
+    "subject": "GitHub Copilot subscription renewed",
+    "body": "Your GitHub Copilot subscription has been renewed. ₹10/month charged.",
+    "expected": {
+      "merchant": "GitHub Copilot",
+      "amount": 10,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_synthetic_18",
+    "subject": "Google Play purchase",
+    "body": "Purchase: Netflix. Amount ₹499. Processed via Google Play.",
+    "expected": {
+      "merchant": "Netflix",
+      "amount": 499,
+      "currency": "INR",
+      "billing_period": "one-time",
+      "status": "One-time"
+    }
+  },
+  {
+    "id": "tc_synthetic_19",
+    "subject": "Spotify subscription cancelled",
+    "body": "Your Spotify subscription has been cancelled. No further billing.",
+    "expected": {
+      "merchant": "Spotify",
+      "amount": null,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Cancelled"
+    }
+  },
+  {
+    "id": "tc_synthetic_20",
+    "subject": "Payment received",
+    "body": "₹129 charged for your premium plan.",
+    "expected": {
+      "merchant": null,
+      "amount": 129,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_synthetic_21",
+    "subject": "SIP processed successfully",
+    "body": "SIP AMOUNT ₹1100 SCHEME NAME Axis Bluechip Fund UNITS ALLOCATED 12 NAV 100 ORDER ID GME10",
+    "expected": {
+      "merchant": "Axis Bluechip Fund",
+      "amount": 1100,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_synthetic_22",
+    "subject": "Figma subscription renewed",
+    "body": "Your Figma subscription has been renewed. ₹12/month charged.",
+    "expected": {
+      "merchant": "Figma",
+      "amount": 12,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_synthetic_23",
+    "subject": "Google Play purchase",
+    "body": "Purchase: Vercel. Amount ₹20. Processed via Google Play.",
+    "expected": {
+      "merchant": "Vercel",
+      "amount": 20,
+      "currency": "INR",
+      "billing_period": "one-time",
+      "status": "One-time"
+    }
+  },
+  {
+    "id": "tc_synthetic_24",
+    "subject": "GitHub Copilot subscription cancelled",
+    "body": "Your GitHub Copilot subscription has been cancelled. No further billing.",
+    "expected": {
+      "merchant": "GitHub Copilot",
+      "amount": null,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Cancelled"
+    }
+  },
+  {
+    "id": "tc_synthetic_25",
+    "subject": "Payment received",
+    "body": "₹499 charged for your premium plan.",
+    "expected": {
+      "merchant": null,
+      "amount": 499,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_synthetic_26",
+    "subject": "SIP processed successfully",
+    "body": "SIP AMOUNT ₹1150 SCHEME NAME Axis Bluechip Fund UNITS ALLOCATED 12 NAV 100 ORDER ID GME15",
+    "expected": {
+      "merchant": "Axis Bluechip Fund",
+      "amount": 1150,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_synthetic_27",
+    "subject": "YouTube Premium subscription renewed",
+    "body": "Your YouTube Premium subscription has been renewed. ₹129/month charged.",
+    "expected": {
+      "merchant": "YouTube Premium",
+      "amount": 129,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_synthetic_28",
+    "subject": "Google Play purchase",
+    "body": "Purchase: Notion. Amount ₹16. Processed via Google Play.",
+    "expected": {
+      "merchant": "Notion",
+      "amount": 16,
+      "currency": "INR",
+      "billing_period": "one-time",
+      "status": "One-time"
+    }
+  },
+  {
+    "id": "tc_synthetic_29",
+    "subject": "Figma subscription cancelled",
+    "body": "Your Figma subscription has been cancelled. No further billing.",
+    "expected": {
+      "merchant": "Figma",
+      "amount": null,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Cancelled"
+    }
+  },
+  {
+    "id": "tc_synthetic_30",
+    "subject": "Payment received",
+    "body": "₹20 charged for your premium plan.",
+    "expected": {
+      "merchant": null,
+      "amount": 20,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_synthetic_31",
+    "subject": "SIP processed successfully",
+    "body": "SIP AMOUNT ₹1200 SCHEME NAME Axis Bluechip Fund UNITS ALLOCATED 12 NAV 100 ORDER ID GME20",
+    "expected": {
+      "merchant": "Axis Bluechip Fund",
+      "amount": 1200,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_synthetic_32",
+    "subject": "Netflix subscription renewed",
+    "body": "Your Netflix subscription has been renewed. ₹499/month charged.",
+    "expected": {
+      "merchant": "Netflix",
+      "amount": 499,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_synthetic_33",
+    "subject": "Google Play purchase",
+    "body": "Purchase: Spotify. Amount ₹119. Processed via Google Play.",
+    "expected": {
+      "merchant": "Spotify",
+      "amount": 119,
+      "currency": "INR",
+      "billing_period": "one-time",
+      "status": "One-time"
+    }
+  },
+  {
+    "id": "tc_synthetic_34",
+    "subject": "YouTube Premium subscription cancelled",
+    "body": "Your YouTube Premium subscription has been cancelled. No further billing.",
+    "expected": {
+      "merchant": "YouTube Premium",
+      "amount": null,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Cancelled"
+    }
+  },
+  {
+    "id": "tc_synthetic_35",
+    "subject": "Payment received",
+    "body": "₹16 charged for your premium plan.",
+    "expected": {
+      "merchant": null,
+      "amount": 16,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_synthetic_36",
+    "subject": "SIP processed successfully",
+    "body": "SIP AMOUNT ₹1250 SCHEME NAME Axis Bluechip Fund UNITS ALLOCATED 12 NAV 100 ORDER ID GME25",
+    "expected": {
+      "merchant": "Axis Bluechip Fund",
+      "amount": 1250,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_synthetic_37",
+    "subject": "Vercel subscription renewed",
+    "body": "Your Vercel subscription has been renewed. ₹20/month charged.",
+    "expected": {
+      "merchant": "Vercel",
+      "amount": 20,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_synthetic_38",
+    "subject": "Google Play purchase",
+    "body": "Purchase: GitHub Copilot. Amount ₹10. Processed via Google Play.",
+    "expected": {
+      "merchant": "GitHub Copilot",
+      "amount": 10,
+      "currency": "INR",
+      "billing_period": "one-time",
+      "status": "One-time"
+    }
+  },
+  {
+    "id": "tc_synthetic_39",
+    "subject": "Netflix subscription cancelled",
+    "body": "Your Netflix subscription has been cancelled. No further billing.",
+    "expected": {
+      "merchant": "Netflix",
+      "amount": null,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Cancelled"
+    }
+  },
+  {
+    "id": "tc_synthetic_40",
+    "subject": "Payment received",
+    "body": "₹119 charged for your premium plan.",
+    "expected": {
+      "merchant": null,
+      "amount": 119,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_synthetic_41",
+    "subject": "SIP processed successfully",
+    "body": "SIP AMOUNT ₹1300 SCHEME NAME Axis Bluechip Fund UNITS ALLOCATED 12 NAV 100 ORDER ID GME30",
+    "expected": {
+      "merchant": "Axis Bluechip Fund",
+      "amount": 1300,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_synthetic_42",
+    "subject": "Notion subscription renewed",
+    "body": "Your Notion subscription has been renewed. ₹16/month charged.",
+    "expected": {
+      "merchant": "Notion",
+      "amount": 16,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_synthetic_43",
+    "subject": "Google Play purchase",
+    "body": "Purchase: Figma. Amount ₹12. Processed via Google Play.",
+    "expected": {
+      "merchant": "Figma",
+      "amount": 12,
+      "currency": "INR",
+      "billing_period": "one-time",
+      "status": "One-time"
+    }
+  },
+  {
+    "id": "tc_synthetic_44",
+    "subject": "Vercel subscription cancelled",
+    "body": "Your Vercel subscription has been cancelled. No further billing.",
+    "expected": {
+      "merchant": "Vercel",
+      "amount": null,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Cancelled"
+    }
+  },
+  {
+    "id": "tc_synthetic_45",
+    "subject": "Payment received",
+    "body": "₹10 charged for your premium plan.",
+    "expected": {
+      "merchant": null,
+      "amount": 10,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_synthetic_46",
+    "subject": "SIP processed successfully",
+    "body": "SIP AMOUNT ₹1350 SCHEME NAME Axis Bluechip Fund UNITS ALLOCATED 12 NAV 100 ORDER ID GME35",
+    "expected": {
+      "merchant": "Axis Bluechip Fund",
+      "amount": 1350,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_synthetic_47",
+    "subject": "Spotify subscription renewed",
+    "body": "Your Spotify subscription has been renewed. ₹119/month charged.",
+    "expected": {
+      "merchant": "Spotify",
+      "amount": 119,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_synthetic_48",
+    "subject": "Google Play purchase",
+    "body": "Purchase: YouTube Premium. Amount ₹129. Processed via Google Play.",
+    "expected": {
+      "merchant": "YouTube Premium",
+      "amount": 129,
+      "currency": "INR",
+      "billing_period": "one-time",
+      "status": "One-time"
+    }
+  },
+  {
+    "id": "tc_synthetic_49",
+    "subject": "Notion subscription cancelled",
+    "body": "Your Notion subscription has been cancelled. No further billing.",
+    "expected": {
+      "merchant": "Notion",
+      "amount": null,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Cancelled"
+    }
+  },
+  {
+    "id": "tc_synthetic_50",
+    "subject": "Payment received",
+    "body": "₹12 charged for your premium plan.",
+    "expected": {
+      "merchant": null,
+      "amount": 12,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_synthetic_51",
+    "subject": "SIP processed successfully",
+    "body": "SIP AMOUNT ₹1400 SCHEME NAME Axis Bluechip Fund UNITS ALLOCATED 12 NAV 100 ORDER ID GME40",
+    "expected": {
+      "merchant": "Axis Bluechip Fund",
+      "amount": 1400,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_synthetic_52",
+    "subject": "GitHub Copilot subscription renewed",
+    "body": "Your GitHub Copilot subscription has been renewed. ₹10/month charged.",
+    "expected": {
+      "merchant": "GitHub Copilot",
+      "amount": 10,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_synthetic_53",
+    "subject": "Google Play purchase",
+    "body": "Purchase: Netflix. Amount ₹499. Processed via Google Play.",
+    "expected": {
+      "merchant": "Netflix",
+      "amount": 499,
+      "currency": "INR",
+      "billing_period": "one-time",
+      "status": "One-time"
+    }
+  },
+  {
+    "id": "tc_synthetic_54",
+    "subject": "Spotify subscription cancelled",
+    "body": "Your Spotify subscription has been cancelled. No further billing.",
+    "expected": {
+      "merchant": "Spotify",
+      "amount": null,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Cancelled"
+    }
+  },
+  {
+    "id": "tc_synthetic_55",
+    "subject": "Payment received",
+    "body": "₹129 charged for your premium plan.",
+    "expected": {
+      "merchant": null,
+      "amount": 129,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_synthetic_56",
+    "subject": "SIP processed successfully",
+    "body": "SIP AMOUNT ₹1450 SCHEME NAME Axis Bluechip Fund UNITS ALLOCATED 12 NAV 100 ORDER ID GME45",
+    "expected": {
+      "merchant": "Axis Bluechip Fund",
+      "amount": 1450,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_synthetic_57",
+    "subject": "Figma subscription renewed",
+    "body": "Your Figma subscription has been renewed. ₹12/month charged.",
+    "expected": {
+      "merchant": "Figma",
+      "amount": 12,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
+    }
+  },
+  {
+    "id": "tc_synthetic_58",
+    "subject": "Google Play purchase",
+    "body": "Purchase: Vercel. Amount ₹20. Processed via Google Play.",
+    "expected": {
+      "merchant": "Vercel",
+      "amount": 20,
+      "currency": "INR",
+      "billing_period": "one-time",
+      "status": "One-time"
+    }
+  },
+  {
+    "id": "tc_synthetic_59",
+    "subject": "GitHub Copilot subscription cancelled",
+    "body": "Your GitHub Copilot subscription has been cancelled. No further billing.",
+    "expected": {
+      "merchant": "GitHub Copilot",
+      "amount": null,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Cancelled"
+    }
+  },
+  {
+    "id": "tc_synthetic_60",
+    "subject": "Payment received",
+    "body": "₹499 charged for your premium plan.",
+    "expected": {
+      "merchant": null,
+      "amount": 499,
+      "currency": "INR",
+      "billing_period": "monthly",
+      "status": "Active"
     }
   }
 ]

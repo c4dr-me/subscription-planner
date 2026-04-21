@@ -9,8 +9,10 @@ litellm.num_retries = 0
 _groq_rate_limited = False
 _gemini_disabled = False
 _gemini_model = "gemini/gemini-3.1-flash-lite-preview"
-_gemini_fallback_model = "gemini/gemma-3-27b-it"
+_gemini_fallback_model = "gemini/gemini-2.5-flash"
+_gemini_fallback_model_2 = "gemini/gemma-3-27b-it"
 _gemini_use_fallback = False
+_gemini_use_fallback_2 = False
 
 
 def _is_daily_limit(err_str):
@@ -57,7 +59,7 @@ def retry(fn, retries=3, state=None, gemini_fn=None):
 
 
 def _try_gemini(gemini_fn, state):
-    global _gemini_disabled, _gemini_use_fallback
+    global _gemini_disabled, _gemini_use_fallback, _gemini_use_fallback_2
     from core.state_manager import gemini_quota_ok, increment_gemini_usage
     if _gemini_disabled:
         logging.warning("Gemini fallback disabled for this run")
@@ -74,7 +76,15 @@ def _try_gemini(gemini_fn, state):
         except litellm.RateLimitError as e:
             err = str(e)
             if "PerDay" in err or "per_day" in err.lower() or "requests per day" in err.lower():
-                logging.error("Gemini daily quota exhausted — resets midnight Pacific. Disabling for this run.")
+                if not _gemini_use_fallback:
+                    logging.warning(f"Gemini primary daily quota exhausted — switching to {_gemini_fallback_model}")
+                    _gemini_use_fallback = True
+                    return _try_gemini_fallback(gemini_fn, state)
+                if not _gemini_use_fallback_2:
+                    logging.warning(f"Gemini fallback daily quota exhausted — switching to {_gemini_fallback_model_2}")
+                    _gemini_use_fallback_2 = True
+                    return _try_gemini_fallback(gemini_fn, state)
+                logging.error("All Gemini models daily quota exhausted — disabling for this run.")
                 _gemini_disabled = True
                 return None
             wait = _parse_retry_after(err)
@@ -85,7 +95,11 @@ def _try_gemini(gemini_fn, state):
                 logging.warning(f"Gemini primary model unavailable (503) — switching to {_gemini_fallback_model}")
                 _gemini_use_fallback = True
                 return _try_gemini_fallback(gemini_fn, state)
-            logging.warning(f"Gemini fallback model also unavailable (attempt {attempt+1}) — retrying in 10s")
+            if not _gemini_use_fallback_2:
+                logging.warning(f"Gemini fallback unavailable (503) — switching to {_gemini_fallback_model_2}")
+                _gemini_use_fallback_2 = True
+                return _try_gemini_fallback(gemini_fn, state)
+            logging.warning(f"All Gemini models unavailable (attempt {attempt+1}) — retrying in 10s")
             time.sleep(10)
         except Exception as e:
             logging.error(f"Gemini fallback failed: {e}")
@@ -127,27 +141,52 @@ You are a billing email parser. Extract subscription/payment details from this e
 
 Return ONLY valid JSON with these exact keys:
 {{
-  "merchant": "<service or company name, e.g. Vercel, Notion, GitHub, HDFC Mid Cap Fund>",
+  "merchant": "<service or company name, e.g. Vercel, Notion, GitHub, HDFC Mid Cap Fund or empty string if unknown>",
   "amount": <numeric amount as float, e.g. 20.0 or 499.98>,
-  "currency": "<3-letter currency code, e.g. USD, INR, EUR>",
-  "billing_period": "<monthly | annual | one-time | unknown>",
+  "currency": "<3-letter currency code: INR, USD, EUR or empty string if unknown>",
+  "billing_period": "<monthly | annual | one-time or empty string if unknown>",
   "next_renewal": "<YYYY-MM-DD or null>",
   "plan_name": "<plan tier or fund name or null>"
 }}
 
 Rules:
-- merchant: the PRODUCT or SERVICE the user actually paid for — what they bought, not who processed the payment
-  - Ask yourself: "What did the user subscribe to or purchase?" — that is the merchant
-  - Payment processors/platforms are NOT the merchant. These are NEVER the merchant: Stripe, PayPal, Razorpay, FastSpring, Paddle, Gumroad, Google Play, Apple App Store, UPI, GPay, PhonePe, CAMS, Groww, Zerodha
-  - If the email is from a payment processor, look inside the body for the actual product/service/game/fund name
-  - Examples: FastSpring email selling Clash of Clans Gold Pass → merchant = "Clash of Clans". Google Play selling Spotify → merchant = "Spotify". Groww SIP → merchant = "HDFC Mid Cap Fund"
-- amount: numeric only, no symbols. Use "Total" value, NOT tax/GST/subtotal alone.
+- merchant: The product/service the user paid for. NOT the payment processor.
+  - Stripe, PayPal, Razorpay, FastSpring, Groww, Google Play, Apple App Store, UPI, CAMS = NOT the merchant.
+  - Look inside the body for the actual product/service/game/fund name.
+- amount: Numeric only (e.g. 499.98). Strip currency symbols. Use empty string if no amount (e.g. cancelled).
   - Strip ₹, $, €, £ etc. e.g. ₹449.00 → 449.0
-- currency: detect from symbols — ₹ or GST = INR, $ = USD, € = EUR. Do not guess.
-- billing_period: one purchase with no recurrence = one-time. SIP/auto-debit every month = monthly. Annual plan = annual.
-- plan_name: the specific item, tier, or plan name. e.g. "Gold Pass", "Pro Plan", "Direct Growth"
-- If you cannot determine a field, use null
-- Do NOT add any explanation, only the JSON object
+- currency: Detect from symbols: ₹/Rs/GST = INR, $ = USD, € = EUR.
+  - For Indian services (Hotstar, JioCinema, Groww SIPs) default to INR.
+  - For cancelled emails with no symbol, infer from the service's country.
+- billing_period: monthly | annual | one-time.
+  - SIP/auto-debit = monthly. Cancelled/trial emails keep the subscription's original period.
+  - A single purchase = one-time.
+- If you cannot determine a field, use empty string (not null).
+- Do NOT add any explanation, only the JSON object.
+
+Examples:
+
+Subject: YouTube Premium subscription cancelled
+Body: Your YouTube Premium subscription has been cancelled. No further billing.
+Reasoning: The email states that the subscription has been cancelled and no further billing will occur, implying that the original billing period is still relevant. The merchant is YouTube Premium. No amount shown. Currency is INR for Indian services. Billing period is monthly.
+Output: {{"merchant": "YouTube Premium", "amount": "", "currency": "INR", "billing_period": "monthly", "next_renewal": null, "plan_name": null}}
+
+Subject: Your purchase of Gold Pass
+Body: Thank you for your purchase. Product: Clash of Clans Gold Pass. Amount: ₹449.00. Order processed by FastSpring.
+Reasoning: The email mentions a purchase of a product, and the product name is Clash of Clans Gold Pass. The payment processor is FastSpring, but the actual merchant is the provider of the product, which is Clash of Clans. The amount is specified as ₹449.00, indicating the currency is INR. Since it's a purchase, the billing period is one-time.
+Output: {{"merchant": "Clash of Clans", "amount": 449.0, "currency": "INR", "billing_period": "one-time", "next_renewal": null, "plan_name": "Gold Pass"}}
+
+Subject: Payment received
+Body: ₹12 charged for your premium plan.
+Reasoning: Payment received but no specific merchant named. Amount is ₹12, currency INR, billing period is monthly based on "plan".
+Output: {{"merchant": "", "amount": 12.0, "currency": "INR", "billing_period": "monthly", "next_renewal": null, "plan_name": null}}
+
+Subject: Your free trial is ending soon
+Body: Your Notion Plus free trial ends soon. Then $16.00/month.
+Reasoning: The merchant is Notion. The trial will convert to $16.00/month, so amount is 16.0, currency is USD, billing period is monthly.
+Output: {{"merchant": "Notion", "amount": 16.0, "currency": "USD", "billing_period": "monthly", "next_renewal": null, "plan_name": "Plus"}}
+
+Now extract from this email:
 
 Subject: {subject}
 Body: {body}
@@ -179,7 +218,12 @@ def _groq_agent():
 
 def _gemini_agent():
     from crewai import Agent
-    model = _gemini_fallback_model if _gemini_use_fallback else _gemini_model
+    if _gemini_use_fallback_2:
+        model = _gemini_fallback_model_2
+    elif _gemini_use_fallback:
+        model = _gemini_fallback_model
+    else:
+        model = _gemini_model
     return Agent(
         role="Billing Email Parser",
         goal="Extract merchant, amount, currency, billing period from billing emails",
@@ -234,6 +278,10 @@ def extract_billing_info(subject, body, state):
         gemini_fn=lambda: _run_extraction(_gemini_agent, subject, body)
     )
     llm_result = parse_extraction(result)
+
+    # If all LLMs failed and rule_result has data, use it directly
+    if not llm_result and rule_result:
+        return {k: v for k, v in rule_result.items() if v is not None}
 
     # Merge: rule-based wins for fields it found (more reliable for structured emails)
     if rule_result:

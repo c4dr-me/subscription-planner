@@ -10,3 +10,4 @@ opentelemetry-sdk>=1.20.0
 openinference-instrumentation-crewai==0.1.0
 openinference-instrumentation-openai>=0.1.0
 deepeval>=3.9.7
+dspy-ai>=2.5.0
